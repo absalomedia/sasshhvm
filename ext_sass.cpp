@@ -109,9 +109,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
   struct Sass_File_Context* file_ctx = sass_make_file_context(file.c_str());
   struct Sass_Context* ctx = sass_file_context_get_context(file_ctx);
 
-  array_init(return_value);
-
-  set_options(this_, ctx);
+  Array return_value;
 
   int64_t status = sass_compile_file_context(file_ctx);
 
@@ -135,6 +133,8 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     {
     // Send it over to PHP.
     add_next_index_string(return_value, sass_context_get_source_map_string(ctx), 1);
+
+    return return_value;
     }
 
    }
