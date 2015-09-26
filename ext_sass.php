@@ -179,6 +179,75 @@ class Sass {
         return $this;
     }
 
+
+    /**
+     * Get the status of source map embedding
+     * @return boolean
+     */
+    public function getEmbed(): bool {
+        return $this->map_embed;
+    }
+
+    /**
+     * Set whether source map embedding happens
+     * @param bool $map_embed
+     * @return Sass
+     */
+    final public function setEmbed(bool $map_embed): Sass {
+        if ($map_embed != 'true' && $map_embed != 'false') {
+            throw new SassException(
+                'Source map embedding is either turned on or off by true/false.', 143575666
+            );
+        }
+        $this->map_embed = $map_embed;
+        return $this;
+    }
+
+    /**
+     * Get the status of source map url ommission
+     * @return boolean
+     */
+    public function getMapURL(): bool {
+        return $this->omit_map_url;
+    }
+
+    /**
+     * Set whether source map url ommission
+     * @param bool $omit_map_url
+     * @return Sass
+     */
+    final public function setMapURL(bool $omit_map_url): Sass {
+        if ($omit_map_url != 'true' && $omit_map_url != 'false') {
+            throw new SassException(
+                'Source map URL omission is either turned on or off by true/false.', 143575666
+            );
+        }
+        $this->omit_map_url = $omit_map_url;
+        return $this;
+    }
+
+   /** Gets the source map functionality status
+     * @return boolean
+     */
+    public function getMapContents(): bool {
+        return $this->omit_map_url;
+    }
+
+    /**
+     * Sets whether the source map functionality turns on or off in LibSASS
+     * @param bool $map_contents
+     * @return Sass
+     */
+    final public function setMapContents(bool $map_contents): Sass {
+        if ($map_contents != 'true' && $map_contents != 'false') {
+            throw new SassException(
+                'The ability to have source maps is either turned on or off by true/false.', 143575777
+            );
+        }
+        $this->map_contents = $map_contents;
+        return $this;
+    }
+
     /**
      * Get the current source map root
      * @return string

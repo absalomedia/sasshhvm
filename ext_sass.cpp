@@ -71,7 +71,7 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
   if (!map_path.empty()) {
-  sass_option_set_source_map_file(opts, obj->o_get("map_file", true, s_Sass).c_str());
+  sass_option_set_source_map_file(opts, obj->o_get("map_path", true, s_Sass).c_str());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
@@ -136,7 +136,6 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     // Send it over to PHP.
     add_next_index_string(return_value, sass_context_get_source_map_string(ctx), 1);
 
-    return return_value;
     }
 
    }

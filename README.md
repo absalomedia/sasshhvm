@@ -15,7 +15,7 @@ For more information about Sass itself, please visit [http://sass-lang.com](http
 
 Requires HHVM 3.2 or later and either the hhvm source tree (use the variable $HPHP_HOME to point to your hhvm source tree) or the [hhvm-dev package](https://github.com/facebook/hhvm/wiki/Prebuilt-Packages-for-HHVM).
 
-Update the submodule with 
+Update the submodule with
 ~~~
 git submodule update --init --recursive`
 ~~~
@@ -75,6 +75,22 @@ You can set the include path for the library to use:
 $sass = new Sass();
 $sass->addIncludePath('/tmp');
 $css = $sass->compile($source);
+```
+
+To generate source comments for a file inline:
+
+```php
+$sass = new Sass();
+$sass->setComments(true);
+$css = $sass->compileFile($source);
+```
+
+You can set the source map file for the library to use:
+
+```php
+$sass = new Sass();
+$sass->setMapPath('/random.output.css.map');
+$css = $sass->compileFile($source);
 ```
 
 If there's a problem, the extension will throw a `SassException`:
