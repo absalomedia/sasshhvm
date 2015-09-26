@@ -56,7 +56,7 @@ static Object throwSassExceptionObject(const Variant& message, int64_t code) {
 
 static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   struct Sass_Options* opts = sass_context_get_options(ctx);
-  
+
   // All options have been validated in ext_sass.php
   sass_option_set_precision(opts, obj->o_get("precision", true, s_Sass).toInt64Val());
   sass_option_set_output_style(opts, (Sass_Output_Style)obj->o_get("style", true, s_Sass).toInt64Val());
@@ -64,6 +64,21 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());
   }
+  sass_option_set_source_comments(opts, obj->o_get("comments", true, s_Sass).toBoolean());
+  if (!comments.empty()) {
+  sass_option_set_omit_source_map_url(opts, false);
+  }
+  sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
+  sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
+  if (!map_path.empty()) {
+  sass_option_set_source_map_file(opts, obj->o_get("map_file", true, s_Sass).c_str());
+  sass_option_set_omit_source_map_url(opts, false);
+  sass_option_set_source_map_contents(opts, true);
+  }
+  if (!map_root.empty()) {
+  sass_option_set_source_map_root(opts, obj->o_get("map_root", true, s_Sass).c_str());
+  }
+
 }
 
 static String HHVM_METHOD(Sass, compile, const String& source) {
@@ -79,13 +94,13 @@ static String HHVM_METHOD(Sass, compile, const String& source) {
   if (status != 0) {
     String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
     sass_delete_data_context(data_context);
-    
+
     throwSassExceptionObject(exMsg, status);
   }
-  
+
   String rt = String::FromCStr(sass_context_get_output_string(ctx));
   sass_delete_data_context(data_context);
-  
+
   return rt;
 }
 
@@ -93,6 +108,8 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
   // Create a new sass_context
   struct Sass_File_Context* file_ctx = sass_make_file_context(file.c_str());
   struct Sass_Context* ctx = sass_file_context_get_context(file_ctx);
+
+  array_init(return_value);
 
   set_options(this_, ctx);
 
@@ -102,14 +119,26 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
   if (status != 0) {
     String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
     sass_delete_file_context(file_ctx);
-    
+
     throwSassExceptionObject(exMsg, status);
-  }
-  
-  String rt = String::FromCStr(sass_context_get_output_string(ctx));
+  } else {
+
+    if (!map_path.empty()) {
+    // Send it over to HHVM.
+    add_next_index_string(return_value, sass_context_get_output_string(ctx), 1);
+    } else {
+    String rt = String::FromCStr(sass_context_get_output_string(ctx));
+    return rt;
+    }
+    // Do we have source maps to go?
+    if (this->map_path != NULL)
+    {
+    // Send it over to PHP.
+    add_next_index_string(return_value, sass_context_get_source_map_string(ctx), 1);
+    }
+
+   }
   sass_delete_file_context(file_ctx);
-  
-  return rt;
 }
 
 static String HHVM_STATIC_METHOD(Sass, getLibraryVersion) {
@@ -118,12 +147,12 @@ static String HHVM_STATIC_METHOD(Sass, getLibraryVersion) {
 
 static class SassExtension : public Extension {
  public:
-  SassExtension() : Extension("sass", "0.1-dev") {}
+  SassExtension() : Extension("sass", "0.2-dev") {}
   virtual void moduleInit() {
     HHVM_ME(Sass, compile);
     HHVM_ME(Sass, compileFileNative);
     HHVM_STATIC_ME(Sass, getLibraryVersion);
-    
+
     Native::registerClassConstant<KindOfInt64>(s_Sass.get(),
                                                s_STYLE_NESTED.get(),
                                                SASS_STYLE_NESTED);
