@@ -111,6 +111,8 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
 
   Array return_value;
 
+  set_options(this_, ctx);
+
   int64_t status = sass_compile_file_context(file_ctx);
 
   // Check the context for any errors...
