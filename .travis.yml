@@ -12,7 +12,7 @@ before_install:
   - git submodule update --init --recursive
 
 script:
-  - build.sh
+  - ./build.sh
 
 notifications:
     on_success: never
