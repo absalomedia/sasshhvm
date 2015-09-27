@@ -25,7 +25,7 @@ install:
 - export CXX="g++-4.9"
 
 script:
-  - {TRAVIS_BUILD_DIR}/build.sh
+  - ./build.sh
 
 notifications:
     on_success: never
