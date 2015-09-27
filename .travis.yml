@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - hhvm
+
+compiler:
+  - gcc
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y hhvm-dev
+  - git submodule update --init --recursive
+
+script:
+  - build.sh
+
+notifications:
+    on_success: never
+    on_failure: never
+
+os:
+  - linux
