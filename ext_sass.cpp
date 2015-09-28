@@ -71,13 +71,13 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   }
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
-  String mapLink = opts, obj->o_get("map_path", true, s_Sass).c_str();
+  String mapLink = String::FromCStr(obj->o_get("map_path", true, s_Sass).c_str());
   if (!mapLink.empty()) {
   sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).c_str());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  String mapRoot = obj->o_get("map_root", true, s_Sass).c_str(); 
+  String mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass).c_str()); 
   if (!mapRoot.empty()) {
   sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).c_str());
   }
@@ -126,7 +126,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     throwSassExceptionObject(exMsg, status);
   } else {
 
-    if (!map_path.empty()) {
+    if (ctx.map_path.len > 0) {
     // Send it over to HHVM.
     add_next_index_string(return_value, sass_context_get_output_string(ctx), 1);
     } else {
@@ -134,7 +134,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     return rt;
     }
     // Do we have source maps to go?
-    if (this->map_path != NULL)
+    if (ctx.map_path.len > 0)
     {
     // Send it over to PHP.
     add_next_index_string(return_value, sass_context_get_source_map_string(ctx), 1);
