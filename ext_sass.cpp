@@ -61,22 +61,22 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());
   }
-  Bool commentsType = obj->o_get("comments", true, s_Sass).toBooleanVal();
+  String commentsType = obj->o_get("comments", true, s_Sass).toBooleanVal();
   sass_option_set_source_comments(opts, obj->o_get(commentsType, true, s_Sass).toBooleanVal());
-  if (!commentsType.empty()) {
+  if (!commentsType {
   sass_option_set_omit_source_map_url(opts, false);
   }
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBooleanVal());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBooleanVal());
-  String mapLink = String::FromCStr(obj->o_get("map_path", true, s_Sass).toCStrRef());
+  String mapLink = obj->o_get("map_path", true, s_Sass).toCStrRef();
   if (!mapLink.empty()) {
-  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).c_str());
+  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toCStrRef());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  String mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass).toCStrRef()); 
+  String mapRoot = obj->o_get("map_root", true, s_Sass).toCStrRef()); 
   if (!mapRoot.empty()) {
-  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).c_str());
+  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toCStrRef());
   }
 
 }
