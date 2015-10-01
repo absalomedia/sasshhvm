@@ -38,18 +38,22 @@ const StaticString s_Glue(",");
 #endif
 
 static Class* c_SassException = nullptr;
-static Object createAndConstruct(Class* c_SassException, const Variant& args) {
-  Object inst{ c_SassException };
+static Object throwSassExceptionObject(const Variant& message, int64_t code) {
+  if (!c_SassException) {
+    c_SassException = Unit::lookupClass(s_SassException.get());
+    assert(c_SassException);
+  }
+
+  Object obj{c_SassException};
   TypedValue ret;
-  g_context->invokeFunc(&ret, c_SassException->getCtor(), args, inst.get());
+  g_context->invokeFunc(&ret,
+                        c_SassException->getCtor(),
+                        make_packed_array(message, code),
+                        obj.get());
   tvRefcountedDecRef(&ret);
-  return inst;
+  throw obj;
 }
 
-[[noreturn]]
-void throwSassExceptionObject(Class* c_SassException, const Variant& message, int64_t code) {
-  throw createAndConstruct(c_SassException, make_packed_array(message, code));
-}
 
 static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   struct Sass_Options* opts = sass_context_get_options(ctx);
@@ -70,13 +74,13 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBooleanVal());
   String mapLink = obj->o_get("map_path", true, s_Sass).toCStrRef();
   if (!mapLink.empty()) {
-  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toCStrRef());
+  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).c_str());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  String mapRoot = obj->o_get("map_root", true, s_Sass).toCStrRef()); 
+  String mapRoot = obj->o_get("map_root", true, s_Sass).toCStrRef(); 
   if (!mapRoot.empty()) {
-  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toCStrRef());
+  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).c_str());
   }
 
 }
