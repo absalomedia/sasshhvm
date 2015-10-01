@@ -21,15 +21,6 @@
 #include "hphp/runtime/version.h"
 #include "lib/libsass/sass_context.h"
 
-#define IMPLEMENT_GET_CLASS(cls) \
-  Class* cls::getClass() { \
-    if (s_class == nullptr) { \
-      s_class = Unit::lookupClass(s_className.get()); \
-      assert(s_class); \
-    } \
-    return s_class; \
-  }
-
 namespace HPHP {
 
 const StaticString s_Sass("Sass");
@@ -47,20 +38,17 @@ const StaticString s_Glue(",");
 #endif
 
 static Class* c_SassException = nullptr;
-static Object throwSassExceptionObject(const Variant& message, int64_t code) {
-  if (!c_SassException) {
-    c_SassException = Unit::lookupClass(s_SassException.get());
-    assert(c_SassException);
-  }
-
-  Object obj{c_SassException};
+static Object createAndConstruct(Class* c_SassException, const Variant& args) {
+  Object inst{ c_SassException };
   TypedValue ret;
-  g_context->invokeFunc(&ret,
-                        c_SassException->getCtor(),
-                        make_packed_array(message, code),
-                        obj.get());
+  g_context->invokeFunc(&ret, c_SassException->getCtor(), args, inst.get());
   tvRefcountedDecRef(&ret);
-  throw obj;
+  return inst;
+}
+
+[[noreturn]]
+void throwSassExceptionObject(Class* c_SassException, const Variant& message, int64_t code) {
+  throw createAndConstruct(c_SassException, make_packed_array(message, code));
 }
 
 static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
