@@ -18,8 +18,19 @@
 #include "hphp/runtime/base/array-init.h"
 #include "hphp/runtime/base/string-util.h"
 #include "hphp/runtime/base/execution-context.h"
-
+#include "hphp/runtime/version.h"
 #include "lib/libsass/sass_context.h"
+
+#define IMPLEMENT_GET_CLASS(cls) \
+  Class* cls::getClass() { \
+    if (s_class == nullptr) { \
+      s_class = Unit::lookupClass(s_className.get()); \
+      assert(s_class); \
+    } \
+    return s_class; \
+  }
+
+#define HIPPO_HHVM_VERSION (HHVM_VERSION_MAJOR * 10000 + HHVM_VERSION_MINOR * 100 + HHVM_VERSION_PATCH)
 
 namespace HPHP {
 
