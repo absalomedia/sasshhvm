@@ -30,8 +30,6 @@
     return s_class; \
   }
 
-#define HIPPO_HHVM_VERSION (HHVM_VERSION_MAJOR * 10000 + HHVM_VERSION_MINOR * 100 + HHVM_VERSION_PATCH)
-
 namespace HPHP {
 
 const StaticString s_Sass("Sass");
