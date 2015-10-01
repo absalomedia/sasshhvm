@@ -19,7 +19,6 @@
 #include "hphp/runtime/base/string-util.h"
 #include "hphp/runtime/base/execution-context.h"
 #include "hphp/runtime/version.h"
-#include "hphp/runtime/ext_zend_compat/php-src/Zend/zend_API.h"
 #include "lib/libsass/sass_context.h"
 
 namespace HPHP {
@@ -38,7 +37,8 @@ const StaticString s_Glue(";");
 const StaticString s_Glue(",");
 #endif
 
-static Class* c_SassException = nullptr;
+class c_SassException extends Exception {}
+
 static Object throwSassExceptionObject(const Variant& message, int64_t code) {
   if (!c_SassException) {
     c_SassException = Unit::lookupClass(s_SassException.get());
@@ -73,13 +73,13 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   }
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
-  String mapLink = obj->o_get("map_path", true, s_Sass).toString();
+  String mapLink = obj->o_get("map_path", true, s_Sass).c_str();
   if (!mapLink.empty()) {
-  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toString());
+  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).c_str());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  String mapRoot = obj->o_get("map_root", true, s_Sass).toString(); 
+  String mapRoot = obj->o_get("map_root", true, s_Sass)c_str(); 
   if (!mapRoot.empty()) {
   sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toString());
   }
