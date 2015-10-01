@@ -73,7 +73,7 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());
   }
-  Bool commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
+  String commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
   sass_option_set_source_comments(opts, obj->o_get(commentsType, true, s_Sass).toBoolean());
   if (!commentsType.empty()) {
   sass_option_set_omit_source_map_url(opts, false);
