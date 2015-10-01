@@ -67,20 +67,20 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   }
   String commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
   sass_option_set_source_comments(opts, obj->o_get(commentsType, true, s_Sass).toBoolean());
-  if (!commentsType {
+  if (!commentsType) {
   sass_option_set_omit_source_map_url(opts, false);
   }
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
   String mapLink = obj->o_get("map_path", true, s_Sass).toString();
   if (!mapLink.empty()) {
-  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).c_str());
+  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toString());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
   String mapRoot = obj->o_get("map_root", true, s_Sass).toString(); 
   if (!mapRoot.empty()) {
-  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).c_str());
+  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toString());
   }
 
 }
