@@ -30,13 +30,13 @@ const StaticString s_STYLE_EXPANDED("STYLE_EXPANDED");
 const StaticString s_STYLE_COMPACT("STYLE_COMPACT");
 const StaticString s_STYLE_COMPRESSED("STYLE_COMPRESSED");
 
-const StaticString s_SassException("SassException");
+//const StaticString s_SassException("SassException");
 #ifdef __WIN__
 const StaticString s_Glue(";");
 #else
 const StaticString s_Glue(",");
 #endif
-
+/*
 class c_SassException extends Exception {}
 
 static Object throwSassExceptionObject(const Variant& message, int64_t code) {
@@ -54,7 +54,7 @@ static Object throwSassExceptionObject(const Variant& message, int64_t code) {
   tvRefcountedDecRef(&ret);
   throw obj;
 }
-
+*/
 
 static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   struct Sass_Options* opts = sass_context_get_options(ctx);
@@ -66,22 +66,22 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());
   }
-  String commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
+  Object commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
   sass_option_set_source_comments(opts, obj->o_get(commentsType, true, s_Sass).toBoolean());
   if (!commentsType) {
   sass_option_set_omit_source_map_url(opts, false);
   }
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
-  String mapLink = obj->o_get("map_path", true, s_Sass).c_str();
+  TypedValue mapLink = obj->o_get("map_path", true, s_Sass).c_str();
   if (!mapLink.empty()) {
-  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).c_str());
+  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toString();
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  String mapRoot = obj->o_get("map_root", true, s_Sass)c_str(); 
+  TypedValue mapRoot = obj->o_get("map_root", true, s_Sass).toString(); 
   if (!mapRoot.empty()) {
-  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toString());
+  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).c_str());
   }
 
 }
