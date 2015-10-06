@@ -30,15 +30,14 @@ const StaticString s_STYLE_EXPANDED("STYLE_EXPANDED");
 const StaticString s_STYLE_COMPACT("STYLE_COMPACT");
 const StaticString s_STYLE_COMPRESSED("STYLE_COMPRESSED");
 
-//const StaticString s_SassException("SassException");
+const StaticString s_SassException("SassException");
 #ifdef __WIN__
 const StaticString s_Glue(";");
 #else
 const StaticString s_Glue(",");
 #endif
-/*
-class c_SassException extends Exception {}
 
+class c_SassException = nullptr;
 static Object throwSassExceptionObject(const Variant& message, int64_t code) {
   if (!c_SassException) {
     c_SassException = Unit::lookupClass(s_SassException.get());
@@ -54,7 +53,7 @@ static Object throwSassExceptionObject(const Variant& message, int64_t code) {
   tvRefcountedDecRef(&ret);
   throw obj;
 }
-*/
+
 
 static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   struct Sass_Options* opts = sass_context_get_options(ctx);
@@ -73,15 +72,15 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   }
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
-  TypedValue mapLink = obj->o_get("map_path", true, s_Sass).c_str();
+  String mapLink = String::FromCStr(obj->o_get("map_path", true, s_Sass));
   if (!mapLink.empty()) {
-  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toString();
+  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toString());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  TypedValue mapRoot = obj->o_get("map_root", true, s_Sass).toString(); 
+  String mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass)); 
   if (!mapRoot.empty()) {
-  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).c_str());
+  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toString());
   }
 
 }
