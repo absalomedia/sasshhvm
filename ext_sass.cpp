@@ -18,7 +18,7 @@
 #include "hphp/runtime/base/array-init.h"
 #include "hphp/runtime/base/string-util.h"
 #include "hphp/runtime/base/execution-context.h"
-#include "hphp/runtime/version.h"
+
 #include "lib/libsass/sass_context.h"
 
 namespace HPHP {
