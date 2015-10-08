@@ -65,7 +65,7 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());
   }
-  Object commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
+  /*Object commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
   sass_option_set_source_comments(opts, obj->o_get(commentsType, true, s_Sass).toBoolean());
   if (!commentsType) {
   sass_option_set_omit_source_map_url(opts, false);
@@ -81,6 +81,7 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   String mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass)); 
   if (!mapRoot.empty()) {
   sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toString());
+  */
   }
 
 }

@@ -89,7 +89,7 @@ You can set the source map file for the library to use:
 
 ```php
 $sass = new Sass();
-$sass->setMapPath('random.output.css.map');
+$sass->setMapPath('/random.output.css.map');
 $css = $sass->compileFile($source);
 ```
 
