@@ -15,11 +15,24 @@
 */
 
 #include "hphp/runtime/ext/extension.h"
+#include "hphp/runtime/ext/std/ext_std_errorfunc.h"
+#include "hphp/runtime/base/php-globals.h"
+#include "hphp/runtime/base/hphp-system.h"
+#include "hphp/runtime/ext/hotprofiler/ext_hotprofiler.h"
 #include "hphp/runtime/base/array-init.h"
 #include "hphp/runtime/base/string-util.h"
 #include "hphp/runtime/base/execution-context.h"
 
 #include "lib/libsass/sass_context.h"
+
+#include "hphp/runtime/server/transport.h"
+
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
+#include <thread>
+#include <unistd.h>
 
 namespace HPHP {
 
@@ -78,7 +91,7 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  String mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass)); 
+  String mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass));
   if (!mapRoot.empty()) {
   sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toString());
   */
