@@ -15,6 +15,7 @@ WORKDIR /usr/src
 
 RUN git clone https://github.com/absalomedia/sasshhvm.git && \
   cd sasshhvm && \
+  git submodule update --init --recursive && \
   hphpize && \
   cmake .  && \
   make && \
