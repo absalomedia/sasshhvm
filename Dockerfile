@@ -15,4 +15,7 @@ WORKDIR /usr/src
 
 RUN git clone https://github.com/absalomedia/sasshhvm.git && \
   cd sasshhvm && \
-  ./build.sh
+  hphpize && \
+  cmake .  && \
+  make && \
+  make install
