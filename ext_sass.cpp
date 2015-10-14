@@ -18,7 +18,6 @@
 #include "hphp/runtime/ext/std/ext_std_errorfunc.h"
 #include "hphp/runtime/base/php-globals.h"
 #include "hphp/runtime/base/hphp-system.h"
-#include "hphp/runtime/ext/hotprofiler/ext_hotprofiler.h"
 #include "hphp/runtime/base/array-init.h"
 #include "hphp/runtime/base/string-util.h"
 #include "hphp/runtime/base/execution-context.h"
@@ -50,7 +49,7 @@ const StaticString s_Glue(";");
 const StaticString s_Glue(",");
 #endif
 
-class c_SassException = nullptr;
+class c_SassException extends Extension {};
 static Object throwSassExceptionObject(const Variant& message, int64_t code) {
   if (!c_SassException) {
     c_SassException = Unit::lookupClass(s_SassException.get());
@@ -78,23 +77,22 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());
   }
-  /*Object commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
+  TypedValue commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
   sass_option_set_source_comments(opts, obj->o_get(commentsType, true, s_Sass).toBoolean());
   if (!commentsType) {
   sass_option_set_omit_source_map_url(opts, false);
   }
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
-  String mapLink = String::FromCStr(obj->o_get("map_path", true, s_Sass));
+  TypedValue mapLink = String::FromCStr(obj->o_get("map_path", true, s_Sass));
   if (!mapLink.empty()) {
   sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toString());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  String mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass));
+  TypedValue mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass));
   if (!mapRoot.empty()) {
   sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toString());
-  */
   }
 
 }
