@@ -14,5 +14,5 @@ RUN export CXX="g++-4.9"
 WORKDIR /usr/src
 
 RUN git clone https://github.com/absalomedia/sasshhvm.git && \
-  cd hhvm && \
+  cd sasshhvm && \
   ./build.sh
