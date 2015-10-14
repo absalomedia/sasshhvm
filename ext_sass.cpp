@@ -49,7 +49,7 @@ const StaticString s_Glue(";");
 const StaticString s_Glue(",");
 #endif
 
-class c_SassException extends Extension {};
+class c_SassException extends Exception {};
 static Object throwSassExceptionObject(const Variant& message, int64_t code) {
   if (!c_SassException) {
     c_SassException = Unit::lookupClass(s_SassException.get());
