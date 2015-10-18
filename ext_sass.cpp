@@ -26,12 +26,16 @@
 
 #include "hphp/runtime/server/transport.h"
 
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <stdlib.h>
-#include <thread>
-#include <unistd.h>
+#define IMPLEMENT_GET_CLASS(cls) \
+  Class* cls::getClass() { \
+    if (s_class == nullptr) { \
+      s_class = Unit::lookupClass(s_className.get()); \
+      assert(s_class); \
+    } \
+    return s_class; \
+  }
+
+#define SASS_HHVM_VERSION (HHVM_VERSION_MAJOR * 10000 + HHVM_VERSION_MINOR * 100 + HHVM_VERSION_PATCH)
 
 namespace HPHP {
 
