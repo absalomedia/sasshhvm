@@ -22,6 +22,7 @@ class Sass {
     private bool $map_contents = false;
     private string $map_root = null;
 
+
     /**
      * Parse a string of Sass; a basic input -> output affair.
      * @param string $source - String containing some sass source code.
@@ -48,18 +49,14 @@ class Sass {
      */
     final public function compileFile(string $fileName): string {
         if (empty($fileName)) {
-            throw new SassException(
-                'The file name may not be empty.', 1435750241
-            );
+            throw new Exception\RunTimeException('The file name may not be empty.');
         }
         // Make  the file path absolute
         if (substr($fileName, 0, 1) !== '/') {
             $fileName = getcwd().'/'.$fileName;
         }
         if (!file_exists($fileName) || !is_readable($fileName)) {
-            throw new SassException(
-                'The file can not be read.', 1435750470
-            );
+            throw new Exception\RunTimeException('The file can not be read.');
         }
         return $this->compileFileNative($fileName);
     }
@@ -98,9 +95,7 @@ class Sass {
             self::STYLE_NESTED, self::STYLE_EXPANDED,
             self::STYLE_COMPACT, self::STYLE_COMPRESSED
         ))) {
-            throw new SassException(
-                'This style is not supported.', 1435749818
-            );
+            throw new Exception\RunTimeException('This style is not supported');
         }
         $this->style = $style;
         return $this;
@@ -129,10 +124,7 @@ class Sass {
             $includePath = getcwd().'/'.$includePath;
         }
         if (!is_dir($includePath) || !is_readable($includePath)) {
-            throw new SassException(
-                'The path '.$includePath.' does not exist or is not readable',
-                1435748077
-            );
+            throw new Exception\RunTimeException('The path '.$includePath.' does not exist or is not readable.');
         }
         $this->includePaths[] = $includePath;
         return $this;
@@ -171,9 +163,8 @@ class Sass {
      */
     final public function setComments(bool $comments): Sass {
         if ($comments != 'true' && $comments != 'false') {
-            throw new SassException(
-                'Source comments are either turned on or off by true/false.', 143575012
-            );
+            throw new Exception\RunTimeException('Source comments are either turned on or off by true/false.');
+
         }
         $this->comments = $comments;
         return $this;
@@ -195,9 +186,7 @@ class Sass {
      */
     final public function setEmbed(bool $map_embed): Sass {
         if ($map_embed != 'true' && $map_embed != 'false') {
-            throw new SassException(
-                'Source map embedding is either turned on or off by true/false.', 143575666
-            );
+            throw new Exception\RunTimeException('Source map embedding is either turned on or off by true/false.');
         }
         $this->map_embed = $map_embed;
         return $this;
@@ -218,9 +207,7 @@ class Sass {
      */
     final public function setMapURL(bool $omit_map_url): Sass {
         if ($omit_map_url != 'true' && $omit_map_url != 'false') {
-            throw new SassException(
-                'Source map URL omission is either turned on or off by true/false.', 143575666
-            );
+            throw new Exception\RunTimeException('Source map URL omission is either turned on or off by true/false.');
         }
         $this->omit_map_url = $omit_map_url;
         return $this;
@@ -240,9 +227,7 @@ class Sass {
      */
     final public function setMapContents(bool $map_contents): Sass {
         if ($map_contents != 'true' && $map_contents != 'false') {
-            throw new SassException(
-                'The ability to have source maps is either turned on or off by true/false.', 143575777
-            );
+            throw new Exception\RunTimeException('The ability to have source maps is either turned on or off by true/false.');
         }
         $this->map_contents = $map_contents;
         return $this;
@@ -267,10 +252,7 @@ class Sass {
             $map_root    = getcwd().'/'.$map_root;
         }
         if (!is_dir($map_root) || !is_readable($map_root)) {
-            throw new SassException(
-                'The path '.$map_root.' does not exist or is not readable',
-                1435748099
-            );
+            throw new Exception\RunTimeException('The path '.$map_root.' does not exist or is not readable.');
         }
 
         $this->map_root = $map_root;
@@ -296,10 +278,7 @@ class Sass {
             $map_path    = getcwd().'/'.$map_path;
         }
         if (!is_writeable($map_path)) {
-            throw new SassException(
-                'The source map file '.$map_path.' is not able to be created.',
-                1435748079
-            );
+            throw new Exception\RunTimeException('The source map file '.$map_path.' is not able to be created.');
         }
         $this->map_path = $map_path;
         return $this;
@@ -321,9 +300,7 @@ class Sass {
      */
     final public function setPrecision(int $precision): Sass {
         if ($precision < 0) {
-            throw new SassException(
-                'The precision has to be greater or equal than 0.', 1435750706
-            );
+            throw new Exception\RunTimeException('The precision has to be greater or equal than 0.');
         }
         $this->precision = $precision;
         return $this;

@@ -53,24 +53,6 @@ const StaticString s_Glue(";");
 const StaticString s_Glue(",");
 #endif
 
-struct c_SassException var;
-static Object throwSassExceptionObject(const Variant& message, int64_t code) {
-  if (!c_SassException) {
-    c_SassException = Unit::lookupClass(s_SassException.get());
-    assert(c_SassException);
-  }
-
-  Object obj{c_SassException};
-  TypedValue ret;
-  g_context->invokeFunc(&ret,
-                        c_SassException->getCtor(),
-                        make_packed_array(message, code),
-                        obj.get());
-  tvRefcountedDecRef(&ret);
-  throw obj;
-}
-
-
 static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   struct Sass_Options* opts = sass_context_get_options(ctx);
 
@@ -81,20 +63,20 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());
   }
-  TypedValue commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
+  String commentsType = obj->o_get("comments", true, s_Sass).toBoolean();
   sass_option_set_source_comments(opts, obj->o_get(commentsType, true, s_Sass).toBoolean());
   if (!commentsType) {
   sass_option_set_omit_source_map_url(opts, false);
   }
   sass_option_set_source_map_embed(opts, obj->o_get("map_embed", true, s_Sass).toBoolean());
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
-  TypedValue mapLink = String::FromCStr(obj->o_get("map_path", true, s_Sass));
+  String mapLink = String::FromCStr(obj->o_get("map_path", true, s_Sass));
   if (!mapLink.empty()) {
   sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).toString());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
-  TypedValue mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass));
+  String mapRoot = String::FromCStr(obj->o_get("map_root", true, s_Sass));
   if (!mapRoot.empty()) {
   sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).toString());
   }
@@ -114,8 +96,6 @@ static String HHVM_METHOD(Sass, compile, const String& source) {
   if (status != 0) {
     String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
     sass_delete_data_context(data_context);
-
-    throwSassExceptionObject(exMsg, status);
   }
 
   String rt = String::FromCStr(sass_context_get_output_string(ctx));
