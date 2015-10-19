@@ -78,13 +78,13 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
   String mapLink = obj->o_get("map_path", true, s_Sass).toString();
   if (!mapLink.empty()) {
-  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass));
+  sass_option_set_source_map_file(opts, obj->o_get(mapLink, true, s_Sass).c_str());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
   String mapRoot = obj->o_get("map_root", true, s_Sass).toString();
   if (!mapRoot.empty()) {
-  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass));
+  sass_option_set_source_map_root(opts, obj->o_get(mapRoot, true, s_Sass).c_str());
   }
 
 }
@@ -125,8 +125,6 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
   if (status != 0) {
     String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
     sass_delete_file_context(file_ctx);
-
-    throwSassExceptionObject(exMsg, status);
   } else {
 
     if (ctx->map_path.len > 0) {
