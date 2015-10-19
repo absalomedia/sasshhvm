@@ -164,7 +164,7 @@ class Sass {
      */
     final public function setComments(bool $comments): Sass {
         if ($comments != 'true' && $comments != 'false') {
-            throw new SassException('Source comments are either turned on or off by true/false.');
+            throw new SassException('Source comments are turned on or off by true/false.');
 
         }
         $this->comments = $comments;
@@ -187,7 +187,7 @@ class Sass {
      */
     final public function setStatus(bool $status): Sass {
         if ($status != 'true' && $status != 'false') {
-            throw new SassException('Source status types are either turned on or off by true/false.');
+            throw new SassException('Source indent status are turned on or off by true/false.');
 
         }
         $this->status = $status;
@@ -210,7 +210,7 @@ class Sass {
      */
     final public function setEmbed(bool $map_embed): Sass {
         if ($map_embed != 'true' && $map_embed != 'false') {
-            throw new SassException('Source map embedding is either turned on or off by true/false.');
+            throw new SassException('Source map embedding is turned on or off by true/false.');
         }
         $this->map_embed = $map_embed;
         return $this;
