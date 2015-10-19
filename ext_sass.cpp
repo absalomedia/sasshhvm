@@ -127,7 +127,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     sass_delete_file_context(file_ctx);
   } else {
 
-    if (ctx->map_path.len > 0) {
+    if (this_->map_path.len > 0) {
     // Send it over to HHVM.
     add_next_index_string(return_value, sass_context_get_output_string(ctx), 1);
     } else {
@@ -135,7 +135,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     return rt;
     }
     // Do we have source maps to go?
-    if (ctx->map_path.len > 0)
+    if (this_->map_path.len > 0)
     {
     // Send it over to PHP.
     add_next_index_string(return_value, sass_context_get_source_map_string(ctx), 1);
