@@ -59,12 +59,8 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   // All options have been validated in ext_sass.php
   sass_option_set_precision(opts, obj->o_get("precision", true, s_Sass).toInt64Val());
   sass_option_set_output_style(opts, (Sass_Output_Style)obj->o_get("style", true, s_Sass).toInt64Val());
-  String indentStatus = obj->o_get("status", true, s_Sass).toBoolean();
-  if (!indentStatus) {
-  sass_option_set_is_indented_syntax_src(opts, false);
-  } else {
-  sass_option_set_is_indented_syntax_src(opts, true);
-  }
+  String indentStatus = obj->o_get("indent", true, s_Sass).toBoolean();
+  sass_option_set_is_indented_syntax_src(opts, obj->o_get(indentStatus, true, s_Sass).toBoolean());
   Array includePaths = obj->o_get("includePaths", true, s_Sass).toCArrRef();
   if (!includePaths.empty()) {
     sass_option_set_include_path(opts, StringUtil::Implode(includePaths, s_Glue).c_str());

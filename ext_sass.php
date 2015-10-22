@@ -15,8 +15,8 @@ class Sass {
     private array<string> $includePaths = array();
     private int $precision = 5;
     private int $style = self::STYLE_NESTED;
-    private bool $syntax = false;
     private bool $comments = false;
+    private bool $indent = false;
     private string $map_path = null;
     private bool $omit_map_url = false;
     private bool $map_embed = false;
@@ -173,28 +173,29 @@ class Sass {
 
 
     /**
-     * Get the source status - SCSS or SASS
+     * Get the status of source indenting
      * @return boolean
      */
-    public function getStatus(): bool {
-        return $this->status;
+    public function getIndent(): bool {
+        return $this->indent;
     }
 
     /**
-     * Set source status type
-     * @param bool $comments
+     * Set whether indentation are displayed in the final compiled SASS file
+     * @param bool $indent
      * @return Sass
      */
-    final public function setStatus(bool $status): Sass {
-        if ($status != 'true' && $status != 'false') {
-            throw new SassException('Source indent status are turned on or off by true/false.');
+    final public function setIndent(bool $indent): Sass {
+        if ($indent != 'true' && $indent != 'false') {
+            throw new SassException('Source indenting are turned on or off by true/false.');
 
         }
-        $this->status = $status;
+        $this->indent = $indent;
         return $this;
     }
 
 
+   
     /**
      * Get the status of source map embedding
      * @return boolean
