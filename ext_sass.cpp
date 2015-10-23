@@ -74,13 +74,13 @@ static void set_options(ObjectData* obj, struct Sass_Context *ctx) {
   sass_option_set_source_map_contents(opts, obj->o_get("map_contents", true, s_Sass).toBoolean());
   String mapLink = obj->o_get("map_path", true, s_Sass).toString();
   if (!mapLink.empty()) {
-  sass_option_set_source_map_file(opts, mapLink);
+  sass_option_set_source_map_file(opts, mapLink.c_str());
   sass_option_set_omit_source_map_url(opts, false);
   sass_option_set_source_map_contents(opts, true);
   }
   String mapRoot = obj->o_get("map_root", true, s_Sass).toString();
   if (!mapRoot.empty()) {
-  sass_option_set_source_map_root(opts, mapRoot);
+  sass_option_set_source_map_root(opts, mapRoot.c_str());
   }
 
 }
@@ -123,7 +123,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     sass_delete_file_context(file_ctx);
   } else {
 
-    if (Sass.map_path.len > 0) {
+    if ( obj->o_get("map_path", true, s_Sass).len > 0) {
     // Send it over to HHVM.
     add_next_index_string(return_value, sass_context_get_output_string(ctx), 1);
     } else {
@@ -131,7 +131,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     return rt;
     }
     // Do we have source maps to go?
-    if (Sass->map_path.len > 0)
+    if ( obj->o_get("map_path", true, s_Sass).len > 0)
     {
     // Send it over to PHP.
     add_next_index_string(return_value, sass_context_get_source_map_string(ctx), 1);
