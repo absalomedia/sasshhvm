@@ -112,6 +112,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
   struct Sass_Context* ctx = sass_file_context_get_context(file_ctx);
 
   Array return_value;
+  String mapLink = obj->o_get("map_path", true, s_Sass).toString();
 
   set_options(this_, ctx);
 
@@ -122,20 +123,19 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     String exMsg = String::FromCStr(sass_context_get_error_message(ctx));
     sass_delete_file_context(file_ctx);
   } else {
-
-    if ( obj->o_get("map_path", true, s_Sass).len > 0) {
-    // Send it over to HHVM.
-    add_next_index_string(return_value, sass_context_get_output_string(ctx), 1);
-    } else {
     String rt = String::FromCStr(sass_context_get_output_string(ctx));
+    if (!mapLink.empty()) {
+    // Send it over to HHVM.
+    return_value = Array::add(0,rt);
+    } else {
     return rt;
     }
     // Do we have source maps to go?
-    if ( obj->o_get("map_path", true, s_Sass).len > 0)
+    if (!mapLink.empty()) {
     {
-    // Send it over to PHP.
-    add_next_index_string(return_value, sass_context_get_source_map_string(ctx), 1);
-
+    // Send it over to HHVM.
+    return_value = Array::add(1,String::FromCStr(sass_context_get_source_map_string(ctx));
+    return return_value;
     }
 
    }
