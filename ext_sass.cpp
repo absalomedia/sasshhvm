@@ -112,7 +112,6 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
   struct Sass_Context* ctx = sass_file_context_get_context(file_ctx);
 
   Array return_value;
-  String mapLink = obj->o_get("map_path", true, s_Sass).toString();
 
   set_options(this_, ctx);
 
@@ -134,7 +133,7 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     if (!mapLink.empty()) {
     {
     // Send it over to HHVM.
-    return_value = Array::add(1,String::FromCStr(sass_context_get_source_map_string(ctx));
+    return_value = Array::add(1,String::FromCStr(sass_context_get_source_map_string(ctx)));
     return return_value;
     }
 
