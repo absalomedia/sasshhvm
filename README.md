@@ -87,7 +87,7 @@ $sass->setComments(true);
 $css = $sass->compileFile($source);
 ```
 
-You can tell the compiler to use idented syntax (SASS syntax) by default it expect SCSS syntax:
+You can tell the compiler to use indented syntax (SASS syntax). By default it expects SCSS syntax:
 
 ```php
 $sass = new Sass();
