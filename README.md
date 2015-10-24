@@ -3,6 +3,8 @@
 The `sass` extension for [HHVM](https://github.com/facebook/hhvm) gives you an object-oriented system of parsing [Sass](http://sass-lang.com/) from within your PHP applications. Under the hood it uses [libsass](https://github.com/sass/libsass), a C library to parse and compile sass/scss files that does not require ruby.
 It is based on the [sass extension for php](https://github.com/sensational/sassphp).
 
+[![Build Status](https://travis-ci.org/absalomedia/sasshhvm.svg)](https://travis-ci.org/absalomedia/sasshhvm)
+
 ## What's Sass?
 
 Sass is a CSS pre-processor language to add on exciting, new, awesome features to CSS. Sass was the first language of its kind and by far the most mature and up to date codebase.
