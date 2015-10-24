@@ -87,6 +87,14 @@ $sass->setComments(true);
 $css = $sass->compileFile($source);
 ```
 
+You can tell the compiler to use idented syntax (SASS syntax) by default it expect SCSS syntax:
+
+```php
+$sass = new Sass();
+$sass->setIndent(true); //TRUE -> SASS, FALSE -> SCSS
+$css = $sass->compile($source);
+```
+
 You can set the source map file for the library to use:
 
 ```php
@@ -94,6 +102,14 @@ $sass = new Sass();
 $sass->setMapPath('/random.output.css.map');
 $css = $sass->compileFile($source);
 ```
+This needs to be done prior to getting the output of the map file. As it stands, both the output of the SASS file compile & the SASS source map file generation sequence are both strings.
+
+The first array item will always be the compiled SASS file:
+    $css[0]
+
+The second array item will always be the source map output:
+    $css[1]
+
 
 If there's a problem, the extension will throw a `SassException`:
 
