@@ -135,7 +135,6 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     if (!mapLink.empty()) {
     // Send it over to HHVM.
     return_value.add(1,String::FromCStr(sass_context_get_source_map_string(ctx)));
-    return return_value;
     }
 
    }
@@ -148,7 +147,7 @@ static String HHVM_STATIC_METHOD(Sass, getLibraryVersion) {
 
 static class SassExtension : public Extension {
  public:
-  SassExtension() : Extension("sass", "0.2-dev") {}
+  SassExtension() : Extension("sass", "0.3-dev") {}
   virtual void moduleInit() {
     HHVM_ME(Sass, compile);
     HHVM_ME(Sass, compileFileNative);
