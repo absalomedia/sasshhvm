@@ -19,7 +19,7 @@ Requires HHVM 3.2 or later and either the hhvm source tree (use the variable $HP
 
 Update the submodule with
 ~~~
-git submodule update --init --recursive`
+git submodule update --init --recursive
 ~~~
 and then run
 
