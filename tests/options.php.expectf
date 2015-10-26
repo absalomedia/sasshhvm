@@ -8,3 +8,4 @@ Message: The precision has to be greater or equal than 0.
 #0 %s/tests/options.php(15): Sass->setPrecision()
 #1 {main}
 bool(true)
+#1 {main}

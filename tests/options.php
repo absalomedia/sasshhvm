@@ -22,3 +22,9 @@ try {
 } catch (Exception $se) {
 	echo 'Caught '.get_class($se)." in ".$se->getFile()." on line ".$se->getLine()."\nMessage: ".$se->getMessage()."\n".$se->getTraceAsString()."\n";
 }
+try {
+	$sass->setIndent(true);
+	var_dump($sass->getIndent() === true);
+} catch (Exception $se) {
+	echo 'Caught '.get_class($se)." in ".$se->getFile()." on line ".$se->getLine()."\nMessage: ".$se->getMessage()."\n".$se->getTraceAsString()."\n";
+}
