@@ -6,7 +6,7 @@ set(LIBSASS_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsass/lib/libsass.a)
 # and will run each time you type make 
 add_custom_target(build_libsass ALL 
                    COMMAND ${CMAKE_MAKE_PROGRAM}
-                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsass/include
+                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsass
                    COMMENT "Original libsass makefile target")
 
 # now create an imported static target
