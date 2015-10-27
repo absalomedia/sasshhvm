@@ -22,7 +22,7 @@
 #include "hphp/runtime/base/string-util.h"
 #include "hphp/runtime/base/execution-context.h"
 
-#include <lib/libsass/include/sass.h>
+#include <sass.h>
 
 #include "hphp/runtime/server/transport.h"
 
