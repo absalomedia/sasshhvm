@@ -9,6 +9,9 @@ add_custom_target(build_libsass ALL
                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsass
                    COMMENT "Original libsass makefile target")
 
+set(SASS_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/lib/libsass/include)
+include_directories (${SASS_HEADERS})     # make sure your .h all inside.
+
 # now create an imported static target
 add_library(libsass STATIC IMPORTED)
 # Import target "libsass" for configuration ""
