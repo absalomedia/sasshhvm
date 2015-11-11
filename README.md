@@ -57,51 +57,77 @@ HPHP_HOME=/path/to/hhvm/source ./test.sh
 
 ## Usage
 
-This extension has a very simple API. You can find the entire API [here](ext_sass.php).
+This extension has a very simple API:
 
-```php
-$sass = new Sass();
-$css = $sass->compile($source);
-```
+    $sass = new Sass();
+    $css = $sass->compile($source);
 
 You can compile a file with `compileFile()`:
 
-```php
-$sass = new Sass();
-$css = $sass->compileFile($source);
-```
+    $sass = new Sass();
+    $css = $sass->compileFile($source);
 
 You can set the include path for the library to use:
 
-```php
-$sass = new Sass();
-$sass->addIncludePath('/tmp');
-$css = $sass->compile($source);
-```
+    $sass = new Sass();
+    $sass->setIncludePath('/tmp');
+    $css = $sass->compile($source);
+
+You can set the style of your SASS file to suit your needs:
+
+    $sass = new Sass();
+    $sass->setStyle(Sass::STYLE_NESTED);
+
+    $sass = new Sass();
+    $sass->setStyle(Sass::STYLE_EXPANDED);
+
+    $sass = new Sass();
+    $sass->setStyle(Sass::STYLE_COMPACT);
+
+    $sass = new Sass();
+    $sass->setStyle(Sass::STYLE_COMPRESSED);
+
+As the [Libsass](https://github.com/hcatlin/libsass) library has matured to get closer to 100% SASS coverage, so this extension has also matured:
+* SASS file compilation is an array when a source map file is specified.
+* The ability to define source comments
+* The ability to embed the source map into the CSS output
+* The ability to specify .SASS file input instead of .SCSS
+* The ability to set a source map path, required when generating a dedicated .map file
+* The ability to define a root directory for the source map itself
+* PHP 5.4 to PHP 7.1 (nightly) support
+
+The output of `compileFile()` is an array when creating source map files, allowing both compiled SASS file and .map file to be generated in the same function call.
+
+As there are multiple ways of generating source comments, there are now PHP level settings to control that output.
 
 To generate source comments for a file inline:
 
-```php
-$sass = new Sass();
-$sass->setComments(true);
-$css = $sass->compileFile($source);
-```
+    $sass = new Sass();
+    $sass->setComments(true);
+    $css = $sass->compileFile($source);
+
+Aliases also exist so you can also use:
+
+    $css = $sass->compile_file($source);
 
 You can tell the compiler to use indented syntax (SASS syntax). By default it expects SCSS syntax:
 
-```php
-$sass = new Sass();
-$sass->setIndent(true); //TRUE -> SASS, FALSE -> SCSS
-$css = $sass->compile($source);
-```
+    $sass = new Sass();
+    $sass->setIndent(true); //TRUE -> SASS, FALSE -> SCSS
+    $css = $sass->compile($source);
+
+You can tell the compiler to embed the source map into the actual CSS file as well:
+
+    $sass = new Sass();
+    $sass->setEmbed(true);
+    $css = $sass->compile($source);
 
 You can set the source map file for the library to use:
 
-```php
-$sass = new Sass();
-$sass->setMapPath('/random.output.css.map');
-$css = $sass->compileFile($source);
-```
+    $sass = new Sass();
+    $sass->setMapPath('/random.output.css.map');
+    $css = $sass->compileFile($source);
+
 This needs to be done prior to getting the output of the map file. As it stands, both the output of the SASS file compile & the SASS source map file generation sequence are both strings.
 
 The first array item will always be the compiled SASS file:
@@ -110,15 +136,24 @@ The first array item will always be the compiled SASS file:
 The second array item will always be the source map output:
     $css[1]
 
+You can set the root of the generated source map file like so:
+
+    $sass = new Sass();
+    $sass->setMapRoot('/some/dir');
+    $sass->setMapPath('/random.output.css.map');
+    $css = $sass->compileFile($source);
 
 If there's a problem, the extension will throw a `SassException`:
 
-```php
-$sass = new Sass();
-try {
-    $css = $sass->compile('asdf');
-} catch (SassException $e) {
-    // $e->getMessage() - ERROR -- , line 1: invalid top-level expression
-    $css = false;
-}
-```
+    $sass = new Sass();
+
+    try
+    {
+        $css = $sass->compile('dayrui3dui36di37');
+    }
+    catch (SassException $e)
+    {
+        // $e->getMessage() - ERROR -- , line 1: invalid top-level expression
+
+        $css = FALSE;
+    }
