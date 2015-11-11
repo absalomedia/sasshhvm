@@ -94,7 +94,6 @@ As the [Libsass](https://github.com/hcatlin/libsass) library has matured to get 
 * The ability to specify .SASS file input instead of .SCSS
 * The ability to set a source map path, required when generating a dedicated .map file
 * The ability to define a root directory for the source map itself
-* PHP 5.4 to PHP 7.1 (nightly) support
 
 The output of `compileFile()` is an array when creating source map files, allowing both compiled SASS file and .map file to be generated in the same function call.
 
