@@ -138,10 +138,6 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
     }
 
    }
-  if (!mapLink.empty()) {
-    return return_value[2];
-  }
-
   sass_delete_file_context(file_ctx);
   
 }
