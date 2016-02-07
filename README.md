@@ -3,7 +3,7 @@
 The `sass` extension for [HHVM](https://github.com/facebook/hhvm) gives you an object-oriented system of parsing [Sass](http://sass-lang.com/) from within your PHP applications. Under the hood it uses [libsass](https://github.com/sass/libsass), a C library to parse and compile sass/scss files that does not require ruby.
 It is based on the [sass extension for php](https://github.com/sensational/sassphp).
 
-[![Build Status](https://travis-ci.org/absalomedia/sasshhvm.svg)](https://travis-ci.org/absalomedia/sasshhvm)
+[![Libsass 3.3.3](https://img.shields.io/badge/libsass-3.3.3-yellow.svg)][![Build Status](https://travis-ci.org/absalomedia/sasshhvm.svg)](https://travis-ci.org/absalomedia/sasshhvm)
 
 ## What's Sass?
 
