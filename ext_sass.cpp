@@ -139,7 +139,8 @@ static String HHVM_METHOD(Sass, compileFileNative, const String& file) {
 
    }
   sass_delete_file_context(file_ctx);
-  
+ 
+  return EXIT_SUCCESS; 
 }
 
 static String HHVM_STATIC_METHOD(Sass, getLibraryVersion) {
@@ -148,7 +149,7 @@ static String HHVM_STATIC_METHOD(Sass, getLibraryVersion) {
 
 static class SassExtension : public Extension {
  public:
-  SassExtension() : Extension("sass", "0.4.3") {}
+  SassExtension() : Extension("sass", "0.4.6") {}
   virtual void moduleInit() {
     HHVM_ME(Sass, compile);
     HHVM_ME(Sass, compileFileNative);
