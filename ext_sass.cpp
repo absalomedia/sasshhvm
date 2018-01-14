@@ -149,7 +149,7 @@ static String HHVM_STATIC_METHOD(Sass, getLibraryVersion) {
 
 static class SassExtension : public Extension {
  public:
-  SassExtension() : Extension("sass", "0.4.6") {}
+  SassExtension() : Extension("sass", "0.4.7") {}
   virtual void moduleInit() {
     HHVM_ME(Sass, compile);
     HHVM_ME(Sass, compileFileNative);
