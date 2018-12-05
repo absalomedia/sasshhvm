@@ -3,7 +3,7 @@
 The `sass` extension for [HHVM](https://github.com/facebook/hhvm) gives you an object-oriented system of parsing [Sass](http://sass-lang.com/) from within your PHP applications. Under the hood it uses [libsass](https://github.com/sass/libsass), a C library to parse and compile sass/scss files that does not require ruby.
 It is based on the [sass extension for php](https://github.com/sensational/sassphp).
 
-![Libsass 3.4.8](https://img.shields.io/badge/libsass-3.4.8-yellow.svg) [![Build Status](https://travis-ci.org/absalomedia/sasshhvm.svg)](https://travis-ci.org/absalomedia/sasshhvm)
+![Libsass 3.5.5](https://img.shields.io/badge/libsass-3.5.5-yellow.svg) [![Build Status](https://travis-ci.org/absalomedia/sasshhvm.svg)](https://travis-ci.org/absalomedia/sasshhvm)
 
 ## What's Sass?
 
@@ -15,25 +15,26 @@ For more information about Sass itself, please visit [http://sass-lang.com](http
 
 ### Building & Installation
 
-Requires HHVM 3.2 or later and either the hhvm source tree (use the variable $HPHP_HOME to point to your hhvm source tree) or the [hhvm-dev package](https://github.com/facebook/hhvm/wiki/Prebuilt-Packages-for-HHVM).
+Requires HHVM 3.2 or later and either the hhvm source tree (use the variable \$HPHP_HOME to point to your hhvm source tree) or the [hhvm-dev package](https://github.com/facebook/hhvm/wiki/Prebuilt-Packages-for-HHVM).
 
 Update the submodule with
-~~~
+
+```
 git submodule update --init --recursive
-~~~
+```
+
 and then run
 
-~~~
+```
 ./build.sh
-~~~
-
+```
 
 To enable the extension, you need to have the following section in your PHP ini file:
 
-~~~
+```
 hhvm.dynamic_extension_path = /path/to/hhvm/extensions
 hhvm.dynamic_extensions[sass] = sass.so
-~~~
+```
 
 Where `/path/to/hhvm/extensions` is a folder containing all HHVM extensions,
 and `sass.so` is in it. This will cause the extension to be loaded when the
@@ -43,17 +44,16 @@ virtual machine starts up.
 
 To run the test suite:
 
-~~~
+```
 $ cd /path/to/extension
 $ ./test.sh
-~~~
+```
 
 If you have the complete hhvm source tree you can run the tests with the test runner.
 
-~~~
+```
 HPHP_HOME=/path/to/hhvm/source ./test.sh
-~~~
-
+```
 
 ## Usage
 
@@ -88,12 +88,13 @@ You can set the style of your SASS file to suit your needs:
     $sass->setStyle(Sass::STYLE_COMPRESSED);
 
 As the [Libsass](https://github.com/hcatlin/libsass) library has matured to get closer to 100% SASS coverage, so this extension has also matured:
-* SASS file compilation is an array when a source map file is specified.
-* The ability to define source comments
-* The ability to embed the source map into the CSS output
-* The ability to specify .SASS file input instead of .SCSS
-* The ability to set a source map path, required when generating a dedicated .map file
-* The ability to define a root directory for the source map itself
+
+- SASS file compilation is an array when a source map file is specified.
+- The ability to define source comments
+- The ability to embed the source map into the CSS output
+- The ability to specify .SASS file input instead of .SCSS
+- The ability to set a source map path, required when generating a dedicated .map file
+- The ability to define a root directory for the source map itself
 
 The output of `compileFile()` is an array when creating source map files, allowing both compiled SASS file and .map file to be generated in the same function call.
 
@@ -130,10 +131,10 @@ You can set the source map file for the library to use:
 This needs to be done prior to getting the output of the map file. As it stands, both the output of the SASS file compile & the SASS source map file generation sequence are both strings.
 
 The first array item will always be the compiled SASS file:
-    $css[0]
+\$css[0]
 
 The second array item will always be the source map output:
-    $css[1]
+\$css[1]
 
 You can set the root of the generated source map file like so:
 
